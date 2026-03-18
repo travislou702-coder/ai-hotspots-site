@@ -1,0 +1,39 @@
+name: Update AI Hotspots
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 1 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-site:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Generate latest site
+        run: python ai_hotspots.py
+
+      - name: Rename generated file to index.html
+        run: cp ai_hotspots.html index.html
+
+      - name: Commit and push updated site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html ai_hotspots.html
+          git commit -m "Auto-update AI hotspots" || echo "No changes to commit"
+          git push
