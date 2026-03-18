@@ -10,7 +10,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 keywords = ["AI", "OpenAI", "Python", "GPU", "LLM", "agent", "Mistral", "model"]
 results = []
 
-for page in range(1, 4):  # 抓前3页
+for page in range(1, 4):
     url = f"https://news.ycombinator.com/?p={page}"
     response = requests.get(url, verify=False)
     response.encoding = response.apparent_encoding
@@ -51,6 +51,17 @@ for page in range(1, 4):  # 抓前3页
             if not domain:
                 domain = "news.ycombinator.com"
 
+            if "python" in title.lower():
+                category = "python"
+            elif "gpu" in title.lower():
+                category = "gpu"
+            elif "llm" in title.lower():
+                category = "llm"
+            elif "ai" in title.lower() or "openai" in title.lower() or "agent" in title.lower() or "mistral" in title.lower() or "model" in title.lower():
+                category = "ai"
+            else:
+                category = "other"
+
             results.append({
                 "title": title,
                 "link": full_link,
@@ -59,10 +70,10 @@ for page in range(1, 4):  # 抓前3页
                 "author": author,
                 "comments": comments,
                 "comments_num": comments_num,
-                "domain": domain
+                "domain": domain,
+                "category": category
             })
 
-# 去重：按标题去重
 seen = set()
 unique_results = []
 for item in results:
@@ -84,7 +95,7 @@ for item in results:
         hot_badge = '<span class="pill warm">热门</span>'
 
     cards_html += f"""
-    <article class="card">
+    <article class="card" data-category="{item['category']}">
         <div class="score-badge">{item['score_num']}</div>
 
         <div class="card-top">
@@ -202,6 +213,26 @@ html = f"""
             color: #dbeafe;
         }}
 
+        .filters {{
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }}
+
+        .filters button {{
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(148,163,184,0.2);
+            background: rgba(30,41,59,0.7);
+            color: #cbd5f5;
+            cursor: pointer;
+        }}
+
+        .filters button:hover {{
+            background: #1e293b;
+        }}
+
         .grid {{
             display: grid;
             grid-template-columns: 1fr;
@@ -216,13 +247,6 @@ html = f"""
             border-radius: 22px;
             padding: 22px 22px 22px 84px;
             box-shadow: 0 10px 35px rgba(0,0,0,0.22);
-            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-        }}
-
-        .card:hover {{
-            transform: translateY(-2px);
-            border-color: rgba(103, 232, 249, 0.28);
-            box-shadow: 0 18px 40px rgba(0,0,0,0.28);
         }}
 
         .score-badge {{
@@ -285,10 +309,6 @@ html = f"""
             margin-bottom: 14px;
         }}
 
-        .title:hover {{
-            text-decoration: underline;
-        }}
-
         .meta {{
             display: flex;
             flex-wrap: wrap;
@@ -306,15 +326,6 @@ html = f"""
         }}
 
         @media (max-width: 680px) {{
-            .hero {{
-                padding-top: 28px;
-            }}
-
-            .hero-box {{
-                padding: 22px;
-                border-radius: 20px;
-            }}
-
             .card {{
                 padding: 20px 18px 18px 18px;
             }}
@@ -322,10 +333,6 @@ html = f"""
             .score-badge {{
                 position: static;
                 margin-bottom: 14px;
-            }}
-
-            .title {{
-                font-size: 24px;
             }}
         }}
     </style>
@@ -349,10 +356,34 @@ html = f"""
         </section>
 
         <div class="section-title">热点列表</div>
+
+        <div class="filters">
+            <button onclick="filterItems('all')">全部</button>
+            <button onclick="filterItems('ai')">AI</button>
+            <button onclick="filterItems('python')">Python</button>
+            <button onclick="filterItems('gpu')">GPU</button>
+            <button onclick="filterItems('llm')">LLM</button>
+        </div>
+
         <section class="grid">
             {cards_html}
         </section>
     </div>
+
+    <script>
+    function filterItems(category) {{
+        const cards = document.querySelectorAll(".card");
+
+        cards.forEach(card => {{
+            if (category === "all") {{
+                card.style.display = "block";
+            }} else {{
+                const c = card.getAttribute("data-category");
+                card.style.display = (c === category) ? "block" : "none";
+            }}
+        }});
+    }}
+    </script>
 </body>
 </html>
 """
