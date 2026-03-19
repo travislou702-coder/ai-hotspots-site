@@ -3,608 +3,141 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>今日 AI 热点</title>
     <style>
-        :root {
-            --bg: #081225;
-            --panel: rgba(16, 24, 40, 0.78);
-            --panel-2: rgba(30, 41, 59, 0.95);
-            --text: #e5eefc;
-            --muted: #94a3b8;
-            --line: rgba(148, 163, 184, 0.14);
-            --blue: #60a5fa;
-            --cyan: #67e8f9;
-            --hot: #fb7185;
-            --warm: #f59e0b;
-        }
-        .tools-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 16px;
-        margin-bottom: 30px;
-        }
-
-        .tool-card {
-         display: block;
-         padding: 18px;
-         border-radius: 16px;
-         background: rgba(30,41,59,0.7);
-         border: 1px solid rgba(148,163,184,0.15);
-         text-decoration: none;
-        color: #e5eefc;
-        transition: 0.2s;
-        }
-
-    .tool-card:hover {
-    transform: translateY(-4px);
-    background: rgba(30,41,59,1);
-    }
-
-    .tool-name {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 6px;
-    }
-
-    .tool-desc {
-    font-size: 14px;
-    color: #94a3b8;
-    }
-
-        * {
-            box-sizing: border-box;
-        }
-
         body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-            background:
-                radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 30%),
-                radial-gradient(circle at top right, rgba(96, 165, 250, 0.10), transparent 28%),
-                linear-gradient(180deg, #07111f 0%, #0b1730 100%);
-            color: var(--text);
+            padding: 40px 20px;
         }
-
         .container {
-            width: min(1100px, calc(100% - 32px));
+            max-width: 900px;
             margin: 0 auto;
         }
-
-        .hero {
-            padding: 56px 0 28px;
-        }
-
-        .hero-box {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.72));
-            border: 1px solid var(--line);
-            border-radius: 28px;
-            padding: 32px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-            backdrop-filter: blur(10px);
-        }
-
-        .eyebrow {
-            display: inline-block;
-            font-size: 13px;
-            letter-spacing: 0.08em;
-            color: var(--cyan);
+        h1 {
+            font-size: 36px;
             margin-bottom: 10px;
         }
-
-        h1 {
-            margin: 0 0 12px;
-            font-size: clamp(34px, 6vw, 56px);
-            line-height: 1.05;
-        }
-
         .sub {
-            color: var(--muted);
-            font-size: 16px;
-            line-height: 1.7;
-            margin-bottom: 20px;
+            color: #94a3b8;
+            margin-bottom: 30px;
         }
-
-        .stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .stat {
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            padding: 10px 14px;
-            color: #dbeafe;
-            font-size: 14px;
-        }
-
-        .section-title {
-            margin: 26px 0 16px;
-            font-size: 20px;
-            color: #dbeafe;
-        }
-
-        .filters {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .filters button {
-            padding: 8px 14px;
-            border-radius: 999px;
-            border: 1px solid rgba(148,163,184,0.2);
-            background: rgba(30,41,59,0.7);
-            color: #cbd5f5;
-            cursor: pointer;
-        }
-
-        .filters button:hover {
-            background: #1e293b;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-            padding-bottom: 40px;
-        }
-
         .card {
             position: relative;
-            background: var(--panel-2);
-            border: 1px solid var(--line);
-            border-radius: 22px;
-            padding: 22px 22px 22px 84px;
-            box-shadow: 0 10px 35px rgba(0,0,0,0.22);
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 20px 20px 20px 72px;
+            margin-bottom: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
         }
-
         .score-badge {
             position: absolute;
-            left: 22px;
-            top: 24px;
-            width: 44px;
-            height: 44px;
+            left: 20px;
+            top: 20px;
+            width: 38px;
+            height: 38px;
             border-radius: 999px;
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-size: 16px;
-            color: #062033;
-            background: linear-gradient(135deg, var(--cyan), var(--blue));
         }
-
-        .card-top {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .pill {
-            display: inline-flex;
-            align-items: center;
-            height: 28px;
-            padding: 0 10px;
-            border-radius: 999px;
-            font-size: 13px;
-            border: 1px solid var(--line);
-        }
-
-        .pill.source {
-            color: #c7d2fe;
-            background: rgba(30, 41, 59, 0.7);
-        }
-
-        .pill.hot {
-            color: #ffe4e6;
-            background: rgba(251, 113, 133, 0.14);
-            border-color: rgba(251, 113, 133, 0.28);
-        }
-
-        .pill.warm {
-            color: #fef3c7;
-            background: rgba(245, 158, 11, 0.12);
-            border-color: rgba(245, 158, 11, 0.28);
-        }
-
         .title {
-            display: block;
             color: #7dd3fc;
             text-decoration: none;
-            font-size: clamp(22px, 2.3vw, 32px);
-            line-height: 1.35;
-            font-weight: 760;
-            margin-bottom: 14px;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.5;
+            display: block;
+            margin-bottom: 10px;
         }
-
+        .title:hover {
+            text-decoration: underline;
+        }
         .meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px;
-            color: var(--muted);
+            color: #cbd5e1;
             font-size: 14px;
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
         }
-
         .empty {
-            background: var(--panel-2);
-            border: 1px solid var(--line);
-            border-radius: 20px;
-            padding: 24px;
-            color: var(--muted);
-        }
-
-        @media (max-width: 680px) {
-            .card {
-                padding: 20px 18px 18px 18px;
-            }
-
-            .score-badge {
-                position: static;
-                margin-bottom: 14px;
-            }
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 20px;
+            color: #cbd5e1;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <section class="hero">
-            <div class="section-title">🧰 AI工具推荐</div>
-
-<div class="tools-grid">
-
-    <a class="tool-card" href="https://chat.openai.com" target="_blank">
-        <div class="tool-name">ChatGPT</div>
-        <div class="tool-desc">最强通用AI助手</div>
-    </a>
-
-    <a class="tool-card" href="https://www.midjourney.com" target="_blank">
-        <div class="tool-name">Midjourney</div>
-        <div class="tool-desc">AI绘图神器</div>
-    </a>
-
-    <a class="tool-card" href="https://cursor.sh" target="_blank">
-        <div class="tool-name">Cursor</div>
-        <div class="tool-desc">AI编程IDE</div>
-    </a>
-
-    <a class="tool-card" href="https://runwayml.com" target="_blank">
-        <div class="tool-name">Runway</div>
-        <div class="tool-desc">AI视频生成</div>
-    </a>
-
-</div>
-            <div class="hero-box">
-                <div class="eyebrow">AI HOTSPOTS · AUTO CURATED</div>
-                <h1>今日 AI 热点</h1>
-                <div class="sub">
-                    抓取 Hacker News 前 3 页，按分数和评论热度排序，自动筛选 AI / Python / GPU / LLM / Agent 相关内容。
-                </div>
-
-                <div class="stats">
-                    <div class="stat">共 14 条结果</div>
-                    <div class="stat">数据源：Hacker News</div>
-                    <div class="stat">生成时间：2026-03-18 21:17:11</div>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-title">热点列表</div>
-        <input 
-        type="text" 
-        id="searchInput" 
-        placeholder="🔍 搜索关键词..." 
-        onkeyup="searchItems()"
-        style="width:100%;padding:10px;margin-bottom:16px;border-radius:10px;border:none;"
->
-
-        <div class="filters">
-            <button onclick="filterItems('all')">全部</button>
-            <button onclick="filterItems('ai')">AI</button>
-            <button onclick="filterItems('python')">Python</button>
-            <button onclick="filterItems('gpu')">GPU</button>
-            <button onclick="filterItems('llm')">LLM</button>
-        </div>
-
-        <section class="grid">
-            
-    <article class="card" data-category="ai">
-        <div class="score-badge">997</div>
-
-        <div class="card-top">
-            <span class="pill source">michaelgeist.ca</span>
-            <span class="pill hot">🔥 热门</span>
-        </div>
-
-        <a class="title" href="https://www.michaelgeist.ca/2026/03/a-tale-of-two-bills-lawful-access-returns-with-changes-to-warrantless-access-but-dangerous-backdoor-surveillance-risks-remains/" target="_blank" rel="noopener noreferrer">
-            Bill C-22, the Lawful Access Act: Dangerous backdoor surveillance risks remain
-        </a>
-
+        <h1>今日 AI 热点</h1>
+        <div class="sub">按分数排序 ｜ 数据来源：Hacker News ｜ 生成时间：2026-03-18 12:33:31</div>
+        
+    <div class="card">
+        <div class="score-badge">996</div>
+        <a class="title" href="https://www.michaelgeist.ca/2026/03/a-tale-of-two-bills-lawful-access-returns-with-changes-to-warrantless-access-but-dangerous-backdoor-surveillance-risks-remains/" target="_blank">Bill C-22, the Lawful Access Act: Dangerous backdoor surveillance risks remain</a>
         <div class="meta">
+            <span>996 points</span>
             <span>作者：opengrass</span>
-            <span>997 points</span>
             <span>331 comments</span>
         </div>
-    </article>
+    </div>
     
-    <article class="card" data-category="ai">
+    <div class="card">
         <div class="score-badge">763</div>
-
-        <div class="card-top">
-            <span class="pill source">mistral.ai</span>
-            <span class="pill hot">🔥 热门</span>
-        </div>
-
-        <a class="title" href="https://mistral.ai/news/leanstral" target="_blank" rel="noopener noreferrer">
-            Leanstral: Open-source agent for trustworthy coding and formal proof engineering
-        </a>
-
+        <a class="title" href="https://mistral.ai/news/leanstral" target="_blank">Leanstral: Open-source agent for trustworthy coding and formal proof engineering</a>
         <div class="meta">
-            <span>作者：Poudlardo</span>
             <span>763 points</span>
+            <span>作者：Poudlardo</span>
             <span>187 comments</span>
         </div>
-    </article>
+    </div>
     
-    <article class="card" data-category="ai">
-        <div class="score-badge">565</div>
-
-        <div class="card-top">
-            <span class="pill source">mistral.ai</span>
-            <span class="pill hot">🔥 热门</span>
-        </div>
-
-        <a class="title" href="https://mistral.ai/news/forge" target="_blank" rel="noopener noreferrer">
-            Mistral AI Releases Forge
-        </a>
-
-        <div class="meta">
-            <span>作者：pember</span>
-            <span>565 points</span>
-            <span>136 comments</span>
-        </div>
-    </article>
-    
-    <article class="card" data-category="python">
-        <div class="score-badge">415</div>
-
-        <div class="card-top">
-            <span class="pill source">fidget-spinner.github.io</span>
-            <span class="pill hot">🔥 热门</span>
-        </div>
-
-        <a class="title" href="https://fidget-spinner.github.io/posts/jit-on-track.html" target="_blank" rel="noopener noreferrer">
-            Python 3.15's JIT is now back on track
-        </a>
-
-        <div class="meta">
-            <span>作者：guidoiaquinti</span>
-            <span>415 points</span>
-            <span>233 comments</span>
-        </div>
-    </article>
-    
-    <article class="card" data-category="ai">
-        <div class="score-badge">271</div>
-
-        <div class="card-top">
-            <span class="pill source">phys.org</span>
-            <span class="pill warm">热门</span>
-        </div>
-
-        <a class="title" href="https://phys.org/news/2026-03-ryugu-asteroid-samples-dna-rna.html" target="_blank" rel="noopener noreferrer">
-            Ryugu asteroid samples contain all DNA and RNA building blocks
-        </a>
-
-        <div class="meta">
-            <span>作者：bookofjoe</span>
-            <span>271 points</span>
-            <span>141 comments</span>
-        </div>
-    </article>
-    
-    <article class="card" data-category="python">
+    <div class="card">
         <div class="score-badge">186</div>
-
-        <div class="card-top">
-            <span class="pill source">github.com</span>
-            <span class="pill warm">热门</span>
-        </div>
-
-        <a class="title" href="https://github.com/pyodide/pyodide" target="_blank" rel="noopener noreferrer">
-            Pyodide: a Python distribution based on WebAssembly
-        </a>
-
+        <a class="title" href="https://github.com/pyodide/pyodide" target="_blank">Pyodide: a Python distribution based on WebAssembly</a>
         <div class="meta">
-            <span>作者：tosh</span>
             <span>186 points</span>
-            <span>51 comments</span>
+            <span>作者：tosh</span>
+            <span>50 comments</span>
         </div>
-    </article>
+    </div>
     
-    <article class="card" data-category="ai">
-        <div class="score-badge">151</div>
-
-        <div class="card-top">
-            <span class="pill source">theasc.com</span>
-            <span class="pill warm">热门</span>
-        </div>
-
-        <a class="title" href="https://theasc.com/articles/the-secret-agent-cinematography" target="_blank" rel="noopener noreferrer">
-            'The Secret Agent': Exploring a Vibrant, yet Violent Brazil (2025)
-        </a>
-
-        <div class="meta">
-            <span>作者：tambourine_man</span>
-            <span>151 points</span>
-            <span>70 comments</span>
-        </div>
-    </article>
-    
-    <article class="card" data-category="ai">
+    <div class="card">
         <div class="score-badge">145</div>
-
-        <div class="card-top">
-            <span class="pill source">arxiv.org</span>
-            
-        </div>
-
-        <a class="title" href="https://arxiv.org/abs/2603.15381" target="_blank" rel="noopener noreferrer">
-            Why AI systems don't learn – On autonomous learning from cognitive science
-        </a>
-
+        <a class="title" href="https://arxiv.org/abs/2511.04427" target="_blank">Speed at the cost of quality: Study of use of Cursor AI in open source projects (2025)</a>
         <div class="meta">
-            <span>作者：aanet</span>
             <span>145 points</span>
-            <span>81 comments</span>
-        </div>
-    </article>
-    
-    <article class="card" data-category="ai">
-        <div class="score-badge">145</div>
-
-        <div class="card-top">
-            <span class="pill source">arxiv.org</span>
-            
-        </div>
-
-        <a class="title" href="https://arxiv.org/abs/2511.04427" target="_blank" rel="noopener noreferrer">
-            Speed at the cost of quality: Study of use of Cursor AI in open source projects (2025)
-        </a>
-
-        <div class="meta">
             <span>作者：wek</span>
-            <span>145 points</span>
             <span>77 comments</span>
         </div>
-    </article>
+    </div>
     
-    <article class="card" data-category="ai">
+    <div class="card">
         <div class="score-badge">89</div>
-
-        <div class="card-top">
-            <span class="pill source">peterlavigne.com</span>
-            
-        </div>
-
-        <a class="title" href="https://peterlavigne.com/writing/verifying-ai-generated-code" target="_blank" rel="noopener noreferrer">
-            Toward automated verification of unreviewed AI-generated code
-        </a>
-
+        <a class="title" href="https://peterlavigne.com/writing/verifying-ai-generated-code" target="_blank">Toward automated verification of unreviewed AI-generated code</a>
         <div class="meta">
-            <span>作者：peterlavigne</span>
             <span>89 points</span>
+            <span>作者：peterlavigne</span>
             <span>83 comments</span>
         </div>
-    </article>
+    </div>
     
-    <article class="card" data-category="gpu">
-        <div class="score-badge">70</div>
-
-        <div class="card-top">
-            <span class="pill source">github.com</span>
-            
-        </div>
-
-        <a class="title" href="https://github.com/peters/horizon" target="_blank" rel="noopener noreferrer">
-            Show HN: Horizon – GPU-accelerated infinite-canvas terminal in Rust
-        </a>
-
-        <div class="meta">
-            <span>作者：petersunde</span>
-            <span>70 points</span>
-            <span>30 comments</span>
-        </div>
-    </article>
-    
-    <article class="card" data-category="ai">
-        <div class="score-badge">64</div>
-
-        <div class="card-top">
-            <span class="pill source">om.co</span>
-            
-        </div>
-
-        <a class="title" href="https://om.co/2026/03/17/openai-has-new-focus-on-the-ipo/" target="_blank" rel="noopener noreferrer">
-            OpenAI Has New Focus (On the IPO)
-        </a>
-
-        <div class="meta">
-            <span>作者：aamederen</span>
-            <span>64 points</span>
-            <span>71 comments</span>
-        </div>
-    </article>
-    
-    <article class="card" data-category="ai">
-        <div class="score-badge">48</div>
-
-        <div class="card-top">
-            <span class="pill source">amaiya.github.io</span>
-            
-        </div>
-
-        <a class="title" href="https://amaiya.github.io/onprem/examples_agent.html" target="_blank" rel="noopener noreferrer">
-            Launch an autonomous AI agent with sandboxed execution in 2 lines of code
-        </a>
-
-        <div class="meta">
-            <span>作者：wiseprobe</span>
-            <span>48 points</span>
-            <span>20 comments</span>
-        </div>
-    </article>
-    
-    <article class="card" data-category="ai">
+    <div class="card">
         <div class="score-badge">13</div>
-
-        <div class="card-top">
-            <span class="pill source">arxiv.org</span>
-            
-        </div>
-
-        <a class="title" href="https://arxiv.org/abs/2509.20362" target="_blank" rel="noopener noreferrer">
-            UC Irvine researchers bring down AI powered drones with painted umbrellas
-        </a>
-
+        <a class="title" href="https://arxiv.org/abs/2509.20362" target="_blank">UC Irvine researchers bring down AI powered drones with painted umbrellas</a>
         <div class="meta">
-            <span>作者：jcalvinowens</span>
             <span>13 points</span>
+            <span>作者：jcalvinowens</span>
             <span>3 comments</span>
         </div>
-    </article>
-    
-        </section>
     </div>
-
-    <script>
-    function filterItems(category) {
-        const cards = document.querySelectorAll(".card");
-
-        cards.forEach(card => {
-            if (category === "all") {
-                card.style.display = "block";
-            } else {
-                const c = card.getAttribute("data-category");
-                card.style.display = (c === category) ? "block" : "none";
-            }
-        });
-    }
-    </script>
-    <script>
-function searchItems() {
-    const input = document.getElementById("searchInput").value.toLowerCase();
-    const cards = document.querySelectorAll(".card");
-
-    cards.forEach(card => {
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(input) ? "block" : "none";
-    });
-}
-</script>
+    
+    </div>
 </body>
 </html>
